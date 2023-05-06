@@ -73,8 +73,7 @@ def update_pokemon(name):
         return ('Pokemon wasn\'t found', 404)
     else:     
         captured_pokemons[name] = True
-        pokemon['captured'] = True
-        return jsonify(pokemon)
+        return jsonify(enrich(pokemon))
     
 
 
