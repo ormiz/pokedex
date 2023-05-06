@@ -62,11 +62,19 @@ def get_pokemons():
 
 captured_pokemons = {}
 
-@app.route('/capture', methods=['PATCH'])
-def capture_pokemon():
-    pokemon_name = request.json.get('pokemonName')
-    captured_pokemons[pokemon_name] = True
-    return ('', 204)
+@app.route('/capture/<name>', methods=['PUT'])
+def update_pokemon(name):
+    data = db.get()
+    pokemon = next(
+        (x for x in data if x['name'] == name),
+        None
+    )
+    if pokemon is None:
+        return ('Pokemon wasn\'t found', 404)
+    else:     
+        captured_pokemons[name] = True
+        pokemon['captured'] = True
+        return jsonify(pokemon)
     
 
 
